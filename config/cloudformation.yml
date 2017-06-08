@@ -1,0 +1,58 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: > 
+  Company Master Elasticsearch 5.3 domain
+
+Resources:
+  ElasticsearchDomain: 
+    Type: "AWS::Elasticsearch::Domain"
+    Properties:
+      DomainName: "companymaster2"
+      ElasticsearchVersion: 5.3
+      ElasticsearchClusterConfig: 
+        DedicatedMasterEnabled: "false"
+        InstanceCount: "1"
+        ZoneAwarenessEnabled: "false"
+        InstanceType: "m4.large.elasticsearch"
+      EBSOptions: 
+        EBSEnabled: true
+        Iops: 0
+        VolumeSize: 10
+        VolumeType: "gp2"
+      SnapshotOptions: 
+        AutomatedSnapshotStartHour: "0"
+      AccessPolicies: 
+        Version: "2012-10-17"
+        Statement: 
+          - 
+            Effect: "Allow"
+            Principal: 
+              AWS: 
+                - "arn:aws:iam::774276570777:role/ElasticSearchFullAccess"
+                - "arn:aws:iam::774276570777:user/demo"
+                
+            Action: "es:*"
+            Resource: "arn:aws:es:ap-south-1:774276570777:domain/companymaster2/*"
+          -
+            Effect: "Allow"
+            Principal: 
+              AWS: "*"
+            Action: "es:*"
+            Resource: "arn:aws:es:ap-south-1:774276570777:domain/companymaster2/*"
+            Condition:
+              IpAddress:
+                aws:SourceIp:
+                  - "61.246.195.194"
+                  - "103.48.58.202"
+                  - "106.209.160.6"
+              
+            
+      AdvancedOptions: 
+        rest.action.multi.allow_explicit_index: "true"
+  
+Outputs:
+ Endpoint:
+   Value: !GetAtt ElasticsearchDomain.DomainEndpoint
+     
+      
+     
+  
