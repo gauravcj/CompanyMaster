@@ -27,17 +27,17 @@ Resources:
             Effect: "Allow"
             Principal: 
               AWS: 
-                - "arn:aws:iam::774276570777:role/ElasticSearchFullAccess"
-                - "arn:aws:iam::774276570777:user/demo"
+                - "arn:aws:iam::<your AWS account ID>:role/ElasticSearchFullAccess"
+                - "arn:aws:iam::<your AWS account ID>:user/demo"
                 
             Action: "es:*"
-            Resource: "arn:aws:es:ap-south-1:774276570777:domain/companymaster2/*"
+            Resource: "arn:aws:es:ap-south-1:<your AWS account ID>:domain/companymaster2/*"
           -
             Effect: "Allow"
             Principal: 
               AWS: "*"
             Action: "es:*"
-            Resource: "arn:aws:es:ap-south-1:774276570777:domain/companymaster2/*"
+            Resource: "arn:aws:es:ap-south-1:<your AWS account ID>:domain/companymaster2/*"
             Condition:
               IpAddress:
                 aws:SourceIp:
